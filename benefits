@@ -1,0 +1,12 @@
+fast execution 
+go is compiled like c, rust 
+python, js, ruby is interpreted 
+java and c# are vm based
+go consume much less memory then java 
+go is even faster then java and c, rust in terms of running a code and code compilation at production level
+if we create a go.exe file anyone can run that exe file without installing go on their device
+in go it do err checking then compiling then execute/ run and give result all at the same time
+go build create an binary which is directly machine understandable without any interpreter
+rust/c have manual memory management, java have garbage collector and it need jvm, go have garbage collector automated
+go/ rust use very less memory and java use 100time more while execution as jvm also took some
+rune is 1 word char 
