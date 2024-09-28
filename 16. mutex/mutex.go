@@ -6,7 +6,7 @@ import (
 )
 
 var mutex sync.Mutex
-var k int
+var k, counter int
 
 func worker(id int, ch chan int, wg *sync.WaitGroup) {
 	defer wg.Done() // Signal completion
@@ -22,6 +22,15 @@ func worker2(id int, ch chan int, wg *sync.WaitGroup) {
 	ch <- k // Send result to channel
 }
 
+func increment(wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	// Lock the mutex before accessing the shared counter
+	mutex.Lock()
+	counter++
+	mutex.Unlock() // Unlock after modifying the counter
+}
+
 func main() {
 	var wg sync.WaitGroup
 	ch := make(chan int, 6) // Buffered channel
@@ -31,13 +40,17 @@ func main() {
 		wg.Add(1)
 		go worker2(i, ch, &wg)
 	}
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go increment(&wg)
+	}
 
 	wg.Wait()
 	close(ch)
 	for val := range ch {
 		fmt.Println("1", val) // Prints values from 0 to 4
 	}
-
+	fmt.Println("Final Counter Value:", counter)
 }
 
 // ***********************************Explanation:
